@@ -234,6 +234,8 @@ private:
 
     void Disconnect();
 
+    void CheckConnection();
+
     void DefaultLogFunction(LogQueue_t& p_logQueue);
 
     void ColorizeMessage(LogQueue_t& p_logQueue) const;

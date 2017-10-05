@@ -18,13 +18,13 @@ void testFunction1()
 {
     LOGGER.SetLogThreshold(two::C_Logger::LoggerLevelEnum::LoggerLevelDebug);
 
-    LOGGER_VERBOSE << "verbose level" << LOGGER_ENDL;
-    LOGGER_DEBUG   << "debug level" << LOGGER_ENDL;
-    LOGGER_INFO    << "info level" << LOGGER_ENDL;
-    LOGGER_WARN    << "warn level" << LOGGER_ENDL;
-    LOGGER_ERROR   << "error level" << LOGGER_ENDL;
-    LOGGER_FATAL   << "fatal level" << LOGGER_ENDL;
-    LOGGER_HIGH    << "highlight level" << LOGGER_ENDL;
+    LOGGER_VERBOSE << "Verbose level" << LOGGER_ENDL;
+    LOGGER_DEBUG   << "Debug level" << LOGGER_ENDL;
+    LOGGER_INFO    << "Info level" << LOGGER_ENDL;
+    LOGGER_WARN    << "Warn level" << LOGGER_ENDL;
+    LOGGER_ERROR   << "Error level" << LOGGER_ENDL;
+    LOGGER_FATAL   << "Fatal level" << LOGGER_ENDL;
+    LOGGER_HIGH    << "Highlight level" << LOGGER_ENDL;
 
     for (size_t i = 0; i < 10; ++i)
     {

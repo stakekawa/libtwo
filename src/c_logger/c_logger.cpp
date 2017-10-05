@@ -26,9 +26,10 @@ namespace two {
 
 C_Logger* C_Logger::s_instance               = NULL;
 
-static constexpr int k_sleepAfterDisconnect = 5; /* milliseconds */
-static bool          g_validSheel           = true;
-static size_t        g_messageCounter       = 0;
+static constexpr int    k_sleepAfterDisconnect  = 5; /* milliseconds */
+static constexpr size_t k_messageCounterDefault = 0;
+static size_t           g_messageCounter        = k_messageCounterDefault;
+static bool             g_validSheel            = true;
 
 static const std::array<StdStringColorEnum,
                         static_cast<size_t>(C_Logger::LoggerLevelEnum::LoggerLevelSize)> k_logColors = { StdStringColorEnum::StdStringColorWhite,
@@ -384,11 +385,7 @@ bool C_Logger::GetUseColor() const
 /* virtual */
 bool C_Logger::PrepareToStart()
 {
-    if ((LoggerConnectedEnum::LoggerConnectedYes != m_connected) &&
-        (true == Connect()))
-    {
-        m_connected = LoggerConnectedEnum::LoggerConnectedYes;
-    }
+    CheckConnection();
 
     return true;
 }
@@ -423,7 +420,7 @@ bool C_Logger::AfterWork()
 
     /* reset to zero the message counter */
 
-    g_messageCounter = 0;
+    g_messageCounter = k_messageCounterDefault;
 
     return true;
 }
@@ -438,6 +435,8 @@ bool C_Logger::StopAfterWakeUpIfStopped()
 /* virtual */
 bool C_Logger::WorkerJob()
 {
+    CheckConnection();
+
     m_queueMutex.lock();
     size_t l_queueLenght = m_queue.size();
     m_queueMutex.unlock();
@@ -531,6 +530,32 @@ void C_Logger::Disconnect()
     std::this_thread::sleep_for(std::chrono::milliseconds(k_sleepAfterDisconnect));
 
     m_connected = LoggerConnectedEnum::LoggerConnectedNo;
+}
+
+
+void C_Logger::CheckConnection()
+{
+    if (LoggerConnectedEnum::LoggerConnectedYes == m_connected)
+    {
+        /* nothing to do */
+    }
+    else if (false == Connect())
+    {
+        std::cerr << GetName() << " Failed to connect!" << std::endl;
+
+        m_connected = LoggerConnectedEnum::LoggerConnectedNo;
+    }
+    else
+    {
+        m_connected = LoggerConnectedEnum::LoggerConnectedYes;
+
+        LogQueue_t l_logQueue;
+
+        l_logQueue.pid      = getThreadPid();
+        l_logQueue.logLevel = LoggerLevelEnum::LoggerLevelHighligth;
+        l_logQueue.message  = std::string("Reconnected!");
+        l_logQueue.time     = std::string(" ") + getLocalTime(false) + std::string(" ");
+    }
 }
 
 
