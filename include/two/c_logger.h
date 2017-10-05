@@ -24,6 +24,7 @@
 #include <sstream>    // std::stringstream
 #include <string>     // std::string
 #include "c_worker.h"
+#include "common.h"
 
 
 #define LOGGER_ENDL                 two::C_Logger::LoggerCmdEnum::LoggerCmdEndl
@@ -83,7 +84,7 @@ public:
     };
 
     /*!
-     *  \brief The LoggerCmdEnum enumerations defines commands to be passed to the C_Logger object
+     *  \brief The LoggerCmdEnum enumeration defines commands to be passed to the C_Logger object
      */
     enum class LoggerCmdEnum : size_t
     {
@@ -95,7 +96,7 @@ public:
     };
 
     /*!
-     *  \brief The LoggerConnectedEnum enumerations maps the C_Logger object connection status
+     *  \brief The LoggerConnectedEnum enumeration maps the C_Logger object connection status
      */
     enum class LoggerConnectedEnum : size_t
     {
@@ -103,6 +104,17 @@ public:
         LoggerConnectedNo,                           /*!< The C_Logger object is disconnected                     */
         LoggerConnectedUnknown,                      /*!< The connection status of the C_Logger object is unknown */
         LoggerConnectedSize = LoggerConnectedUnknown /*!< Alias to LoggerConnectedUnknown                         */
+    };
+
+    /*!
+     *  \brief The LoggerLogFunctionEnum enumeration maps the logging functions
+     */
+    enum class LoggerLogFunctionEnum : size_t
+    {
+        LoggerLogFunctionStdOut,                            /*!< Log on the standard output     */
+        LoggerLogFunctionDefault = LoggerLogFunctionStdOut, /*!< Log using the default function */
+        LoggerLogFunctionFile,                              /*!< Log using a file               */
+        LoggerLogFunctionSize                               /*!< Number of log functions        */
     };
 
     /*!
@@ -197,6 +209,33 @@ public:
      */
     bool GetUseColor() const;
 
+    /*!
+     *  \brief Set whether to echo the log message on stardard output despite
+     *         the log function
+     */
+    void SetEchoStdOut(const bool p_echoStdOut);
+
+    /*!
+     *  \brief Get whether to echo the log message on stardard output despite
+     *         the log function
+     */
+    bool GetEchoStdOut() const;
+
+    /*!
+     *  \brief Set the default log function
+     */
+    TwoReturnCodeEnum SetLogFunctionDefault() { return SetLogFunctionStdCout(); }
+
+    /*!
+     *  \brief Set the log function to log on the stardard output
+     */
+    TwoReturnCodeEnum SetLogFunctionStdCout();
+
+    /*!
+     *  \brief Set the log function to log on a file
+     */
+    TwoReturnCodeEnum SetLogFunctionFile(const std::string& p_logFile);
+
 
 protected:
 
@@ -234,9 +273,13 @@ private:
 
     void Disconnect();
 
+    void StartConnection();
+
     void CheckConnection();
 
-    void DefaultLogFunction(LogQueue_t& p_logQueue);
+    void LogFunctionStdOut(LogQueue_t& p_logQueue);
+
+    void LogFunctionFile(LogQueue_t& p_logQueue);
 
     void ColorizeMessage(LogQueue_t& p_logQueue) const;
 
@@ -253,6 +296,7 @@ private:
 
     LoggerLevelEnum                          m_logThreshold;
     bool                                     m_useColor;
+    bool                                     m_echoStdOut;
 
     std::function<void(LogQueue_t&)>         m_logFunction;
 

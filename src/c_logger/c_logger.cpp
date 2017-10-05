@@ -9,6 +9,7 @@
 
 
 #include <array>            // std::array
+#include <fstream>          // std::ofstream
 #include <iostream>         // std::cerr
 #include <thread>           // std::thread
 #include "c_logger.h"
@@ -30,6 +31,8 @@ static constexpr int    k_sleepAfterDisconnect  = 5; /* milliseconds */
 static constexpr size_t k_messageCounterDefault = 0;
 static size_t           g_messageCounter        = k_messageCounterDefault;
 static bool             g_validSheel            = true;
+static constexpr bool   k_useColorDefault       = true;
+static constexpr bool   k_echoStdOutDefault     = false;
 
 static const std::array<StdStringColorEnum,
                         static_cast<size_t>(C_Logger::LoggerLevelEnum::LoggerLevelSize)> k_logColors = { StdStringColorEnum::StdStringColorWhite,
@@ -40,8 +43,10 @@ static const std::array<StdStringColorEnum,
                                                                                                          StdStringColorEnum::StdStringColorBoldRed,
                                                                                                          StdStringColorEnum::StdStringColorBoldCyan };
 
+static std::ofstream    g_logFile;
+
 /*                                                                            */
-/* Private members                                                            */
+/* Private functions                                                          */
 /*                                                                            */
 
 
@@ -82,6 +87,21 @@ TwoReturnCodeEnum enumToStdString(const C_Logger::LoggerLevelEnum p_enum, std::s
     }
 
     return l_returnCode;
+}
+
+
+inline std::ostream& operator<<(std::ostream& p_ostream, const C_Logger::LogQueue_t& p_logQueue)
+{
+    p_ostream << p_logQueue.pid
+              << " "
+              << static_cast<size_t>(p_logQueue.logLevel)
+              << p_logQueue.time
+              << g_messageCounter
+              << " "
+              << p_logQueue.message
+              << "\n";
+
+    return p_ostream;
 }
 
 
@@ -305,7 +325,7 @@ C_Logger& C_Logger::operator<<(const LoggerCmdEnum p_enum)
             m_messages[l_pid].mutex.unlock();
             break;
         case LoggerCmdEnum::LoggerCmdStart:
-            Start();
+            StartConnection();
             break;
         case LoggerCmdEnum::LoggerCmdClose:
             Stop();
@@ -377,6 +397,87 @@ bool C_Logger::GetUseColor() const
 }
 
 
+void C_Logger::SetEchoStdOut(const bool p_echoStdOut)
+{
+    std::lock_guard<std::recursive_mutex> l_lock(m_mutex);
+
+    m_echoStdOut = p_echoStdOut;
+}
+
+
+bool C_Logger::GetEchoStdOut() const
+{
+    std::lock_guard<std::recursive_mutex> l_lock(m_mutex);
+
+    return m_echoStdOut;
+}
+
+
+TwoReturnCodeEnum C_Logger::SetLogFunctionStdCout()
+{
+    TwoReturnCodeEnum l_returnCode = TwoReturnCodeEnum::TwoReturnCodeSuccess;
+
+    std::lock_guard<std::recursive_mutex> l_lock(m_mutex);
+
+    /* first stop the logger */
+
+    if (false == IsStopped())
+    {
+        Stop();
+    }
+
+    /* then close the log file */
+
+    if (true == g_logFile.is_open())
+    {
+        g_logFile.close();
+    }
+
+    m_logFunction = [this](LogQueue_t& p_logQueue){ LogFunctionStdOut(p_logQueue); };
+
+    Start();
+
+    return l_returnCode;
+}
+
+
+TwoReturnCodeEnum C_Logger::SetLogFunctionFile(const std::string& p_logFile)
+{
+    TwoReturnCodeEnum l_returnCode = TwoReturnCodeEnum::TwoReturnCodeSuccess;
+
+    std::lock_guard<std::recursive_mutex> l_lock(m_mutex);
+
+    /* first stop the logger */
+
+    if (false == IsStopped())
+    {
+        Stop();
+    }
+
+    /* then close the log file */
+
+    if (true == g_logFile.is_open())
+    {
+        g_logFile.close();
+    }
+
+    g_logFile.open(p_logFile.c_str(), std::fstream::out | std::fstream::trunc);
+
+    if (false == g_logFile.is_open())
+    {
+        l_returnCode = TwoReturnCodeEnum::TwoReturnCodeFileError;
+    }
+    else
+    {
+        m_logFunction = [this](LogQueue_t& p_logQueue){ LogFunctionFile(p_logQueue); };
+    }
+
+    Start();
+
+    return l_returnCode;
+}
+
+
 /*                                                                            */
 /* Protected members                                                          */
 /*                                                                            */
@@ -405,6 +506,15 @@ bool C_Logger::BeforeWork()
 
     SetStartStopAsync(false);
 
+    LogQueue_t l_logQueue;
+
+    l_logQueue.pid      = getThreadPid();
+    l_logQueue.logLevel = LoggerLevelEnum::LoggerLevelHighligth;
+    l_logQueue.message  = std::string("Hello!");
+    l_logQueue.time     = std::string(" ") + getLocalTime(false) + std::string(" ");
+
+    m_logFunction(l_logQueue);
+
     return true;
 }
 
@@ -421,6 +531,13 @@ bool C_Logger::AfterWork()
     /* reset to zero the message counter */
 
     g_messageCounter = k_messageCounterDefault;
+
+    /* close the log file if it is open */
+
+    if (true == g_logFile.is_open())
+    {
+        g_logFile.close();
+    }
 
     return true;
 }
@@ -469,8 +586,9 @@ C_Logger::C_Logger() :
     m_connected(LoggerConnectedEnum::LoggerConnectedUnknown),
     m_messages(),
     m_logThreshold(LoggerLevelEnum::LoggerLevelInfo),
-    m_useColor(true),
-    m_logFunction([this](LogQueue_t& p_logQueue){ DefaultLogFunction(p_logQueue); }),
+    m_useColor(k_useColorDefault),
+    m_echoStdOut(k_echoStdOutDefault),
+    m_logFunction([this](LogQueue_t& p_logQueue){ LogFunctionStdOut(p_logQueue); }),
     m_queue(),
     m_queueMutex(),
     m_mutex()
@@ -481,25 +599,7 @@ C_Logger::C_Logger() :
 
     g_validSheel = isValidShell();
 
-    if (false == Connect())
-    {
-        std::cerr << GetName() << " Failed to connect!" << std::endl;
-    }
-    else
-    {
-        m_connected = LoggerConnectedEnum::LoggerConnectedYes;
-
-        LogQueue_t l_logQueue;
-
-        l_logQueue.pid      = getThreadPid();
-        l_logQueue.logLevel = LoggerLevelEnum::LoggerLevelHighligth;
-        l_logQueue.message  = std::string("Hello!");
-        l_logQueue.time     = std::string(" ") + getLocalTime(false) + std::string(" ");
-
-        m_logFunction(l_logQueue);
-    }
-
-    C_Worker::Start();
+    StartConnection();
 }
 
 
@@ -533,6 +633,24 @@ void C_Logger::Disconnect()
 }
 
 
+void C_Logger::StartConnection()
+{
+    if (false == Connect())
+    {
+        std::cerr << GetName() << " Failed to connect!" << std::endl;
+    }
+    else
+    {
+        m_connected = LoggerConnectedEnum::LoggerConnectedYes;
+    }
+
+    if (false == IsStarted())
+    {
+        Start();
+    }
+}
+
+
 void C_Logger::CheckConnection()
 {
     if (LoggerConnectedEnum::LoggerConnectedYes == m_connected)
@@ -559,10 +677,8 @@ void C_Logger::CheckConnection()
 }
 
 
-void C_Logger::DefaultLogFunction(LogQueue_t& p_logQueue)
+void C_Logger::LogFunctionStdOut(LogQueue_t& p_logQueue)
 {
-    std::string l_stringEnum;
-
     if (m_logThreshold > p_logQueue.logLevel)
     {
         /* logging below the threshold */
@@ -570,8 +686,31 @@ void C_Logger::DefaultLogFunction(LogQueue_t& p_logQueue)
     else
     {
         ColorizeMessage(p_logQueue);
-        std::cout <<  p_logQueue.pid << " " << static_cast<size_t>(p_logQueue.logLevel) << p_logQueue.time << g_messageCounter << " " << p_logQueue.message << "\n";
+        std::cout << p_logQueue;
         ++g_messageCounter;
+    }
+}
+
+
+void C_Logger::LogFunctionFile(LogQueue_t& p_logQueue)
+{
+    if (m_logThreshold > p_logQueue.logLevel)
+    {
+        /* logging below the threshold */
+    }
+    else if (false == g_logFile.is_open())
+    {
+        std::cerr << GetName() << " Log file is not open! Log message will be lost: " << p_logQueue.message << std::endl;
+    }
+    else
+    {
+        g_logFile << p_logQueue;
+        ++g_messageCounter;
+
+        if (true == m_echoStdOut)
+        {
+            LogFunctionStdOut(p_logQueue);
+        }
     }
 }
 

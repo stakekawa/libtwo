@@ -41,8 +41,14 @@ TwoReturnCodeEnum enumToStdString(const TwoReturnCodeEnum p_enum, std::string& p
         case TwoReturnCodeEnum::TwoReturnCodeError:
             p_stringEnum = std::string("TwoReturnCodeError");
             break;
+        case TwoReturnCodeEnum::TwoReturnCodeOutOfRange:
+            p_stringEnum = std::string("TwoReturnCodeOutOfRange");
+            break;
         case TwoReturnCodeEnum::TwoReturnCodeNotCorverted:
             p_stringEnum = std::string("TwoReturnCodeNotCorverted");
+            break;
+        case TwoReturnCodeEnum::TwoReturnCodeFileError:
+            p_stringEnum = std::string("TwoReturnCodeFileError");
             break;
         case TwoReturnCodeEnum::TwoReturnCodeSize:
             p_stringEnum = std::string("TwoReturnCodeSize");
