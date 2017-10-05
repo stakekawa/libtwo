@@ -1,0 +1,34 @@
+/*!
+ *  \file two.h
+ *
+ *  \brief This is the API header of the C++ Two library
+ *  \author Stefano Takekawa s.takekawa_at_gmail.com
+ *  \date 2017
+ *  \copyright Personal use only - No commercial
+ */
+
+
+#ifndef TWO_H
+#define TWO_H
+
+
+/*                                                                            */
+/* definition of version stuff                                                */
+/*                                                                            */
+#define TWO_LIBRARY_VERSION_STRING                 "@PROJECT_BASEVERSION@"
+#define TWO_LIBRARY_VERSION_MAJOR                  @PROJECT_BASEVERSION_MAJOR@
+#define TWO_LIBRARY_VERSION_MINOR                  @PROJECT_BASEVERSION_MINOR@
+#define TWO_LIBRARY_VERSION_PATCH                  @PROJECT_BASEVERSION_PATCH@
+#define TWO_LIBRARY_VERSION                        (10000 * TWO_LIBRARY_VERSION_MAJOR + \
+                                                    100 * TWO_LIBRARY_VERSION_MINOR + \
+                                                    TWO_LIBRARY_VERSION_PATCH )
+
+/*                                                                            */
+/* layers includes                                                            */
+/*                                                                            */
+#include "two/c_logger.h"
+#include "two/colorizeString.h"
+#include "two/common.h"
+
+
+#endif // TWO_H
