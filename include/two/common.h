@@ -41,6 +41,7 @@ enum class TwoReturnCodeEnum
     TwoReturnCodeOutOfRange,   /*!< Out of range error            */
     TwoReturnCodeNotCorverted, /*!< Conversion failed             */
     TwoReturnCodeFileError,    /*!< Generic file error            */
+    TwoReturnCodeFileEnd,      /*!< End of file reached           */
     TwoReturnCodeSize          /*!< The number of the enumeration */
 };
 

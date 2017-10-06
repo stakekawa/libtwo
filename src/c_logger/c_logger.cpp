@@ -1,7 +1,7 @@
 /*!
  *  \file c_logger.cpp
  *
- *  \brief This file contains the implementation of c_logger class
+ *  \brief This file contains the implementation of C_Logger class
  *  \author Stefano Takekawa s.takekawa_at_gmail.com
  *  \date 2017
  *  \copyright Personal use only - No commercial

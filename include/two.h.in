@@ -27,6 +27,7 @@
 /* layers includes                                                            */
 /*                                                                            */
 #include "two/c_logger.h"
+#include "two/c_textfilereader.h"
 #include "two/colorizeString.h"
 #include "two/common.h"
 

@@ -1,7 +1,7 @@
 /*!
  *  \file c_logger.h
  *
- *  \brief This file contains the declaration of c_logger class
+ *  \brief This file contains the declaration of C_Logger class
  *  \author Stefano Takekawa s.takekawa_at_gmail.com
  *  \date 2017
  *  \copyright Personal use only - No commercial
@@ -68,6 +68,7 @@ class C_Logger : C_Worker
 
 public:
 
+
     /*!
      *  \brief The LoggerLevelEnum enumeration defines the handled logging levels
      */
@@ -83,6 +84,7 @@ public:
         LoggerLevelSize       /*< Number of logging levels                              */
     };
 
+
     /*!
      *  \brief The LoggerCmdEnum enumeration defines commands to be passed to the C_Logger object
      */
@@ -95,6 +97,7 @@ public:
         LoggerCmdSize   /*!< Number of LoggerCmdEnum enumerations                                       */
     };
 
+
     /*!
      *  \brief The LoggerConnectedEnum enumeration maps the C_Logger object connection status
      */
@@ -105,6 +108,7 @@ public:
         LoggerConnectedUnknown,                      /*!< The connection status of the C_Logger object is unknown */
         LoggerConnectedSize = LoggerConnectedUnknown /*!< Alias to LoggerConnectedUnknown                         */
     };
+
 
     /*!
      *  \brief The LoggerLogFunctionEnum enumeration maps the logging functions
@@ -117,6 +121,7 @@ public:
         LoggerLogFunctionSize                               /*!< Number of log functions        */
     };
 
+
     /*!
      * \brief The LogMux_t struct is used as a POD to group logLevel, message and the mutex controlling
      *        access to the former two data members of the LogMux_t struct
@@ -126,7 +131,15 @@ public:
         LoggerLevelEnum              logLevel;
         std::stringstream            message;
         mutable std::recursive_mutex mutex;
+
+        LogMux_t() :
+            logLevel(LoggerLevelEnum::LoggerLevelVerbose),
+            message(),
+            mutex()
+        { /* empty */ }
+
     };
+
 
     /*!
      *  \brief The LogQueue_t struct is used as a POD to queue messages to be logged after LoggerCmdEndl is received
@@ -137,6 +150,14 @@ public:
         LoggerLevelEnum logLevel;
         std::string     message;
         std::string     time;
+
+        LogQueue_t() :
+            pid(0),
+            logLevel(LoggerLevelEnum::LoggerLevelVerbose),
+            message(),
+            time()
+        { /* empty */ }
+
     };
 
 

@@ -1,6 +1,6 @@
 /*!
- *  \file colorizeString.cpp
- *  \brief Main source of colorizeString test
+ *  \file c_logger.cpp
+ *  \brief Main source of c_logger test
  *  \author Stefano Takekawa s.takekawa_at_gmail.com
  *  \date 2017
  *  \copyright Personal use only - No commercial

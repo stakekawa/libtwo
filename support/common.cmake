@@ -10,7 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 #
 # CXXFLAGS
 #
-set(COMMON_CXX_FLAGS "-std=c++14 -pipe")
+set(COMMON_CXX_FLAGS "-std=c++14 -pipe -Wextra -Weffc++ -Wno-system-headers -Wshadow")
 
 set(COMMON_FLAGS_DEBUG "-O0 -g3")
 set(COMMON_FLAGS_RELEASE "-O2 -march=native -fomit-frame-pointer")

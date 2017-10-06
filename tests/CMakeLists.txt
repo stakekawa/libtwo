@@ -21,5 +21,6 @@ project(${PROJECT_BASENAME} LANGUAGES CXX)
 # add tests
 #
 add_subdirectory(c_logger)
+add_subdirectory(c_textfilereader)
 add_subdirectory(colorizeString)
 add_subdirectory(common)
