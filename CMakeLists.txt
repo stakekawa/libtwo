@@ -46,7 +46,8 @@ set(PROJECT_SOURCES ${PROJECT_SRC_DIR}/colorizeString/colorizeString.cpp
                     ${PROJECT_SRC_DIR}/common/common.cpp
                     ${PROJECT_SRC_DIR}/c_logger/c_logger.cpp
                     ${PROJECT_SRC_DIR}/c_textfilereader/c_textfilereader.cpp
-                    ${PROJECT_SRC_DIR}/c_worker/c_worker.cpp)
+                    ${PROJECT_SRC_DIR}/c_worker/c_worker.cpp
+                    ${PROJECT_SRC_DIR}/thread/pthread_mutexlocker_t.cpp)
 
 
 #

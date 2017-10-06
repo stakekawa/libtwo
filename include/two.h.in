@@ -30,6 +30,7 @@
 #include "two/c_textfilereader.h"
 #include "two/colorizeString.h"
 #include "two/common.h"
+#include "two/thread.h"
 
 
 #endif // TWO_H
