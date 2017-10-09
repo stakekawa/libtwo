@@ -12,12 +12,10 @@
 #define TWO_HEADER_H
 
 
-namespace it {
-namespace twominds {
+namespace two {
 
 
-} /* end namespace twominds */
-} /* end namespace it       */
+} /* end namespace two { */
 
 
 #endif // TWO_HEADER_H
