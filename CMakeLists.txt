@@ -53,7 +53,7 @@ set(PROJECT_SOURCES ${PROJECT_SRC_DIR}/colorizeString/colorizeString.cpp
 #
 # includes
 #
-set(PROJECT_INCLUDES ${PROJECT_INCLUDE_DIR}/two.h)
+set(PROJECT_INCLUDES ${PROJECT_INCLUDE_DIR}/${PROJECT_BASENAME}.h)
 include_directories(/usr/include)
 include_directories(${PROJECT_INCLUDE_DIR})
 include_directories(${PROJECT_INCLUDE_DIR}/${PROJECT_BASENAME})
