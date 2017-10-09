@@ -1,4 +1,15 @@
 #
+# CMakeLists.txt for the two library tests
+#
+# Author: Stefano Takekawa s.takekawa_at_gmail.com
+#
+# Date: 2017
+#
+# Copyright: Apache Licence 2.0
+#
+
+
+#
 # cmake version
 #
 cmake_minimum_required(VERSION 3.7)

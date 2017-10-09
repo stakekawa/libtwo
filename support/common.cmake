@@ -1,4 +1,15 @@
 #
+# common.cmake for the two library
+#
+# Author: Stefano Takekawa s.takekawa_at_gmail.com
+#
+# Date: 2017
+#
+# Copyright: Apache Licence 2.0
+#
+
+
+#
 # C++ stuff
 #
 enable_language(CXX)

@@ -4,7 +4,7 @@
  *  \brief This file contains the implementation of pthread_mutexlocker_t class
  *  \author Stefano Takekawa s.takekawa_at_gmail.com
  *  \date 2017
- *  \copyright Personal use only - No commercial
+ *  \copyright Apache Licence 2.0
  */
 
 

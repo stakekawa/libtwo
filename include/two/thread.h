@@ -4,7 +4,7 @@
  *  \brief This file includes all the thread-related include of the Two library
  *  \author Stefano Takekawa s.takekawa_at_gmail.com
  *  \date 2017
- *  \copyright Personal use only - No commercial
+ *  \copyright Apache Licence 2.0
  */
 
 

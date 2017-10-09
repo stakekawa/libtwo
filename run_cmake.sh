@@ -1,3 +1,14 @@
+#
+# run_cmake.sh: script to lazily run cmake
+#
+# Author: Stefano Takekawa s.takekawa_at_gmail.com
+#
+# Date: 2017
+#
+# Copyright: Apache Licence 2.0
+#
+
+
 #!/bin/bash
 
 CMAKE_BUILD_TYPE="${1:-Debug}"
