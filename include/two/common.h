@@ -23,10 +23,23 @@
 namespace two {
 
 
+/*                                                                            */
+/* version function                                                           */
+/*                                                                            */
+
+
 /*!
  *  \brief Return a std::string containing the Two library version
  */
 std::string getTwoLibVersion();
+
+
+/*                                                                            */
+/* types                                                                      */
+/*                                                                            */
+
+
+using TwoKey_t = uint64_t;
 
 
 /*                                                                            */
@@ -36,13 +49,14 @@ std::string getTwoLibVersion();
 
 enum class TwoReturnCodeEnum
 {
-    TwoReturnCodeSuccess,      /*!< No error                      */
-    TwoReturnCodeError,        /*!< Generic error                 */
-    TwoReturnCodeOutOfRange,   /*!< Out of range error            */
-    TwoReturnCodeNotCorverted, /*!< Conversion failed             */
-    TwoReturnCodeFileError,    /*!< Generic file error            */
-    TwoReturnCodeFileEnd,      /*!< End of file reached           */
-    TwoReturnCodeSize          /*!< The number of the enumeration */
+    TwoReturnCodeSuccess,           /*!< No error                      */
+    TwoReturnCodeError,             /*!< Generic error                 */
+    TwoReturnCodeInvalidParameters, /*!< Invalid parameters error      */
+    TwoReturnCodeOutOfRange,        /*!< Out of range error            */
+    TwoReturnCodeNotCorverted,      /*!< Conversion failed             */
+    TwoReturnCodeFileError,         /*!< Generic file error            */
+    TwoReturnCodeFileEnd,           /*!< End of file reached           */
+    TwoReturnCodeSize               /*!< The number of the enumeration */
 };
 
 
@@ -93,7 +107,7 @@ std::string getLocalTime(const bool p_onlyNumbers);
 
 inline unsigned int getThreadPid()
 {
-    const pid_t p_tid = syscall(SYS_gettid);
+    const pid_t p_tid = static_cast<pid_t>(syscall(SYS_gettid));
     return static_cast<unsigned int>(0xFFFFFFFF & p_tid);
 }
 

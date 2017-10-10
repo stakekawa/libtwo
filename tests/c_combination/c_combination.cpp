@@ -185,6 +185,106 @@ void testFunction4()
     std::cout << " " << l_combInt2 << "\t - \t2" << "\t\t = \t"; l_combInt2.SubtractToElements(2); std::cout << l_combInt2 << "\n";
     std::cout << " " << l_combInt3 << "\t - \t2" << "\t\t = \t"; l_combInt3.SubtractToElements(2); std::cout << l_combInt3 << "\n";
     std::cout << " " << l_combInt4 << "\t - \t2" << "\t\t = \t"; l_combInt4.SubtractToElements(2); std::cout << l_combInt4 << "\n";
+
+    std::cout << "\n";
+}
+
+
+void testFunction5()
+{
+    std::vector<int> l_N{10, 10, 10,  0,  0,  5,        90,        90};
+    std::vector<int> l_K{ 1,  0, 10, 10,  0,  3,         5,         6};
+    std::vector<int> l_E{10,  1,  1,  1,  0, 10,  43949268, 622614630};
+
+    const size_t l_nTests = l_N.size();
+
+    std::vector<size_t> l_nCombinations;
+    l_nCombinations.resize(l_nTests, 0);
+
+    std::string l_stringEnum;
+
+    two::TwoReturnCodeEnum l_returnCode = two::TwoReturnCodeEnum::TwoReturnCodeSuccess;
+
+    for (size_t i = 0; i < l_nTests; ++i)
+    {
+        l_returnCode = two::computeNumberOfCombinations(l_N[i], l_K[i], l_nCombinations[i]);
+
+        if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess == l_returnCode)
+        {
+            std::cout << " " << __func__ << " N = " << l_N[i] << "\t K = " << l_K[i] << "\t (expected " << l_E[i] << ")\t->\t" << l_nCombinations[i] << " .\n";
+        }
+        else if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess == two::enumToStdString(l_returnCode, l_stringEnum))
+        {
+            std::cout << " " << __func__ << " N = " << l_N[i] << "\t K = " << l_K[i] << "\t Error: " << l_stringEnum << " .\n";
+        }
+        else
+        {
+            std::cout << " " << __func__ << " N = " << l_N[i] << "\t K = " << l_K[i] << "\t Error: " << static_cast<size_t>(l_returnCode) << " .\n";
+        }
+    }
+
+    std::cout << "\n";
+
+    std::list<int> l_sample5Int{1, 2, 3, 4, 5};
+
+    std::list<std::shared_ptr<two::C_Combination<int> > > l_combinationsInt;
+
+    l_returnCode = two::C_Combinator<int>::CreateCombinations(l_sample5Int, 3, l_combinationsInt);
+
+    if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess == l_returnCode)
+    {
+        std::cout << " " << __func__ << " Created " << l_combinationsInt.size() << " combinations. Expected 10.\n";
+
+        for (const std::shared_ptr<two::C_Combination<int> >& l_combination : l_combinationsInt)
+        {
+            std::cout << " " << *l_combination;
+        }
+
+        std::cout << "\n";
+    }
+
+    l_returnCode = two::C_Combinator<int>::CreateCombinations(l_sample5Int, 2, l_combinationsInt);
+
+    if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess == l_returnCode)
+    {
+        std::cout << " " << __func__ << " Created " << l_combinationsInt.size() << " combinations. Expected 10.\n";
+
+        for (const std::shared_ptr<two::C_Combination<int> >& l_combination : l_combinationsInt)
+        {
+            std::cout << " " << *l_combination;
+        }
+
+        std::cout << "\n";
+    }
+
+    l_returnCode = two::C_Combinator<int>::CreateCombinations(l_sample5Int, 4, l_combinationsInt);
+
+    if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess == l_returnCode)
+    {
+        std::cout << " " << __func__ << " Created " << l_combinationsInt.size() << " combinations. Expected 5.\n";
+
+        for (const std::shared_ptr<two::C_Combination<int> >& l_combination : l_combinationsInt)
+        {
+            std::cout << " " << *l_combination;
+        }
+
+        std::cout << "\n";
+    }
+
+    l_returnCode = two::C_Combinator<int>::CreateCombinations(l_sample5Int, 5, l_combinationsInt);
+
+    if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess == l_returnCode)
+    {
+        std::cout << " " << __func__ << " Created " << l_combinationsInt.size() << " combinations. Expected 1.\n";
+
+        for (const std::shared_ptr<two::C_Combination<int> >& l_combination : l_combinationsInt)
+        {
+            std::cout << " " << *l_combination;
+        }
+
+        std::cout << "\n";
+    }
+
 }
 
 
@@ -203,6 +303,8 @@ int main(int argc, char* argv[])
     testFunction3();
 
     testFunction4();
+
+    testFunction5();
 
     std::cout << std::endl;
 

@@ -13,6 +13,7 @@
 
 
 #include "c_combination.h"
+#include "c_combinator.h"
 #include "c_onlinemeansigma.h"
 
 

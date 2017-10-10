@@ -35,9 +35,7 @@ class C_Combination
 public:
 
     /*!
-     *  \brief Default constructor. The mutex is locked once upon construction
-     *
-     *  \param p_mutex reference to pthread_mutex_t to lock
+     *  \brief Default constructor
      */
     C_Combination();
 
@@ -63,27 +61,27 @@ public:
     explicit C_Combination(const std::list<T>& p_elements);
 
     /*!
-     *  \brief Destructor. The mutex is unlocked once upon destruction
+     *  \brief Destructors
      */
     virtual ~C_Combination();
 
     /*!
-     *  \brief Deleted copy constructor
+     *  \brief Copy constructor
      */
     C_Combination<T>(const C_Combination<T>& p_orig);
 
     /*!
-     *  \brief Deleted copy assignment
+     *  \brief Copy assignment
      */
     C_Combination<T>& operator=(const C_Combination<T>& p_other);
 
     /*!
-     *  \brief Deleted move constructor
+     *  \brief Move constructor
      */
     C_Combination<T>(C_Combination<T>&& p_orig);
 
     /*!
-     *  \brief Deleted move assignment
+     *  \brief Move assignment
      */
     C_Combination<T>& operator=(C_Combination<T>&& p_other);
 
