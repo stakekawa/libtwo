@@ -293,4 +293,4 @@ std::string stdStringLatin1toUtf8(const char p_chars[], const size_t p_length)
 
 
 
-} /* end namespace two */
+} /* namespace two { */

@@ -677,7 +677,7 @@ inline void C_Combination<T>::RemoveDuplicatedElements()
 }
 
 
-} /* end namespace two { */
+} /* namespace two { */
 
 
 #endif // TWO_C_COMBINATION_H

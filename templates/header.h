@@ -15,7 +15,7 @@
 namespace two {
 
 
-} /* end namespace two { */
+} /* namespace two { */
 
 
 #endif // TWO_HEADER_H

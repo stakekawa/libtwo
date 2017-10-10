@@ -246,7 +246,7 @@ inline std::string colorizeStdStringBoldWhite(const std::string& p_string)
 }
 
 
-} /* end namespace two */
+} /* namespace two { */
 
 
 #endif // TWO_COLORIZEDSTRING_H

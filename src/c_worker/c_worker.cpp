@@ -1,7 +1,7 @@
 /*!
  *  \file c_worker.cpp
  *
- *  \brief This file contains the implementation of c_worker class
+ *  \brief This file contains the implementation of C_Worker class
  *  \author Stefano Takekawa s.takekawa_at_gmail.com
  *  \date 2017
  *  \copyright Apache Licence 2.0
@@ -399,4 +399,4 @@ void C_Worker::StoppingThread()
 }
 
 
-} /* end namespace two { */
+} /* namespace two { */

@@ -353,7 +353,7 @@ C_Logger& C_Logger::operator<<(const std::vector<T>& p_vector)
 }
 
 
-} /* namespace two */
+} /* namespace two { */
 
 
 #endif // TWO_C_LOGGER_H

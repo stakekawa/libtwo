@@ -1,15 +1,15 @@
 /*!
  *  \file c_worker.h
  *
- *  \brief This file contains the declaration of c_worker class
+ *  \brief This file contains the declaration of C_Worker class
  *  \author Stefano Takekawa s.takekawa_at_gmail.com
  *  \date 2017
  *  \copyright Apache Licence 2.0
  */
 
 
-#ifndef TWO_CHECKER_C_WORKER_H
-#define TWO_CHECKER_C_WORKER_H
+#ifndef TWO_C_WORKER_H
+#define TWO_C_WORKER_H
 
 
 #define C_WORKER_NAME_DEFAULT                              std::string("Worker")
@@ -311,7 +311,7 @@ private:
 };
 
 
-} /* end namespace two { */
+} /* namespace two { */
 
 
-#endif // TWO_CHECKER_C_WORKER_H
+#endif // TWO_C_WORKER_H

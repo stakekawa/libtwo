@@ -113,5 +113,5 @@ std::string colorizeStdString(const std::string& p_string, const StdStringColorE
 }
 
 
-} /* end namespace two */
+} /* namespace two { */
 

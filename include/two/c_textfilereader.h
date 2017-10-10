@@ -137,7 +137,7 @@ public:
 };
 
 
-} /* end namespace two { */
+} /* namespace two { */
 
 
 #endif // TWO_C_TEXTFILEREADER_H

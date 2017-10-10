@@ -92,7 +92,7 @@ private:
 };
 
 
-} /* end namespace two { */
+} /* namespace two { */
 
 
 #endif // TWO_PTHREAD_MUTEXLOCKER_T_H

@@ -23,11 +23,15 @@
                                                     100 * TWO_LIBRARY_VERSION_MINOR + \
                                                     TWO_LIBRARY_VERSION_PATCH )
 
+
 /*                                                                            */
 /* layers includes                                                            */
 /*                                                                            */
 #include "two/c_logger.h"
+#include "two/c_observable.h"
+#include "two/c_observer.h"
 #include "two/c_textfilereader.h"
+#include "two/c_updatecounter.h"
 #include "two/colorizeString.h"
 #include "two/common.h"
 #include "two/math.h"

@@ -59,4 +59,4 @@ TwoReturnCodeEnum pthread_mutexlocker_t::Unlock()
 }
 
 
-} /* end namespace two { */
+} /* namespace two { */

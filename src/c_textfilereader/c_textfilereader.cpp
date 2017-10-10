@@ -176,4 +176,4 @@ bool C_TextFileReader::IsEof() const
 }
 
 
-} /* end namespace two { */
+} /* namespace two { */

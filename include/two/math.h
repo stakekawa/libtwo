@@ -13,6 +13,7 @@
 
 
 #include "c_combination.h"
+#include "c_onlinemeansigma.h"
 
 
 #endif // TWO_MATH_H
