@@ -213,13 +213,9 @@ void testFunction5()
         {
             std::cout << " " << __func__ << " N = " << l_N[i] << "\t K = " << l_K[i] << "\t (expected " << l_E[i] << ")\t->\t" << l_nCombinations[i] << " .\n";
         }
-        else if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess == two::enumToStdString(l_returnCode, l_stringEnum))
-        {
-            std::cout << " " << __func__ << " N = " << l_N[i] << "\t K = " << l_K[i] << "\t Error: " << l_stringEnum << " .\n";
-        }
         else
         {
-            std::cout << " " << __func__ << " N = " << l_N[i] << "\t K = " << l_K[i] << "\t Error: " << static_cast<size_t>(l_returnCode) << " .\n";
+            std::cout << " " << __func__ << " N = " << l_N[i] << "\t K = " << l_K[i] << "\t Error: " << two::enumToStdString(l_returnCode) << " .\n";
         }
     }
 

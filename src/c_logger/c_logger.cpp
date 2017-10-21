@@ -25,7 +25,7 @@ namespace two {
 /*                                                                            */
 
 
-C_Logger* C_Logger::s_instance               = NULL;
+C_Logger* C_Logger::s_instance                  = NULL;
 
 static constexpr int    k_sleepAfterDisconnect  = 5; /* milliseconds */
 static constexpr size_t k_messageCounterDefault = 0;
@@ -50,43 +50,42 @@ static std::ofstream    g_logFile;
 /*                                                                            */
 
 
-TwoReturnCodeEnum enumToStdString(const C_Logger::LoggerLevelEnum p_enum, std::string& p_stringEnum)
+std::string enumToStdString(const C_Logger::LoggerLevelEnum p_enum)
 {
-    TwoReturnCodeEnum l_returnCode = TwoReturnCodeEnum::TwoReturnCodeSuccess;
+    std::string l_convertedString("LoggerLevelEnum not converted ");
 
     switch (p_enum)
     {
         case C_Logger::LoggerLevelEnum::LoggerLevelVerbose:
-            p_stringEnum = std::string("Verbose");
+            l_convertedString = std::string("Verbose");
             break;
         case C_Logger::LoggerLevelEnum::LoggerLevelDebug:
-            p_stringEnum = std::string("Debug");
+            l_convertedString = std::string("Debug");
             break;
         case C_Logger::LoggerLevelEnum::LoggerLevelInfo:
-            p_stringEnum = std::string("Info");
+            l_convertedString = std::string("Info");
             break;
         case C_Logger::LoggerLevelEnum::LoggerLevelWarn:
-            p_stringEnum = std::string("Warn");
+            l_convertedString = std::string("Warn");
             break;
         case C_Logger::LoggerLevelEnum::LoggerLevelError:
-            p_stringEnum = std::string("Error");
+            l_convertedString = std::string("Error");
             break;
         case C_Logger::LoggerLevelEnum::LoggerLevelFatal:
-            p_stringEnum = std::string("Fatal");
+            l_convertedString = std::string("Fatal");
             break;
         case C_Logger::LoggerLevelEnum::LoggerLevelHighligth:
-            p_stringEnum = std::string("Highlight");
+            l_convertedString = std::string("Highlight");
             break;
         case C_Logger::LoggerLevelEnum::LoggerLevelSize:
-            p_stringEnum = std::string("Size");
+            l_convertedString = std::string("Size");
             break;
         default:
-            p_stringEnum = std::string("LoggerLevelEnum not converted ") + std::to_string(static_cast<size_t>(p_enum));
-            l_returnCode = TwoReturnCodeEnum::TwoReturnCodeNotCorverted;
+            l_convertedString = std::to_string(static_cast<size_t>(p_enum));
             break;
     }
 
-    return l_returnCode;
+    return l_convertedString;
 }
 
 
@@ -360,16 +359,7 @@ void C_Logger::SetLogThreshold(const LoggerLevelEnum p_logThreshold)
 
     std::string l_stringEnum;
 
-    TwoReturnCodeEnum l_returnCode = enumToStdString(p_logThreshold, l_stringEnum);
-
-    if (TwoReturnCodeEnum::TwoReturnCodeSuccess == l_returnCode)
-    {
-        *this << LoggerLevelEnum::LoggerLevelHighligth << "Setting log threshold to" << l_stringEnum << LOGGER_ENDL;
-    }
-    else
-    {
-        *this << LoggerLevelEnum::LoggerLevelHighligth << "Setting log threshold to" << static_cast<size_t>(p_logThreshold) << LOGGER_ENDL;
-    }
+    *this << LoggerLevelEnum::LoggerLevelHighligth << "Setting log threshold to" << enumToStdString(p_logThreshold) << LOGGER_ENDL;
 }
 
 

@@ -80,16 +80,7 @@ void testFunction2()
 
     if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess != l_returnCode)
     {
-        std::string l_stringEnum;
-
-        if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess != two::enumToStdString(l_returnCode, l_stringEnum))
-        {
-            std::cout << __func__ << " Failed to set logger to log file " << l_logFile << " with error " << static_cast<size_t>(l_returnCode) << "\n";
-        }
-        else
-        {
-            std::cout << __func__ << " Failed to set logger to log file " << l_logFile << " with error " << l_stringEnum << "\n";
-        }
+        std::cout << __func__ << " Failed to set logger to log file " << l_logFile << " with error " << two::enumToStdString(l_returnCode) << "\n";
     }
     else
     {
@@ -126,16 +117,7 @@ void testFunction2()
 
     if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess != l_returnCode)
     {
-        std::string l_stringEnum;
-
-        if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess != two::enumToStdString(l_returnCode, l_stringEnum))
-        {
-            std::cout << __func__ << " Failed to set logger to standard output with error " << static_cast<size_t>(l_returnCode) << "\n";
-        }
-        else
-        {
-            std::cout << __func__ << " Failed to set logger to standard output with error " << l_stringEnum << "\n";
-        }
+        std::cout << __func__ << " Failed to set logger to standard output with error " << two::enumToStdString(l_returnCode) << "\n";
     }
     else
     {

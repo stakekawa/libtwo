@@ -1,0 +1,7 @@
+/home/twominds/programming/libtwo/tests/sqlite3/build.debug/CMakeFiles/install/strip.dir
+/home/twominds/programming/libtwo/tests/sqlite3/build.debug/CMakeFiles/install/local.dir
+/home/twominds/programming/libtwo/tests/sqlite3/build.debug/CMakeFiles/sqlite3.dir
+/home/twominds/programming/libtwo/tests/sqlite3/build.debug/CMakeFiles/install.dir
+/home/twominds/programming/libtwo/tests/sqlite3/build.debug/CMakeFiles/list_install_components.dir
+/home/twominds/programming/libtwo/tests/sqlite3/build.debug/CMakeFiles/edit_cache.dir
+/home/twominds/programming/libtwo/tests/sqlite3/build.debug/CMakeFiles/rebuild_cache.dir

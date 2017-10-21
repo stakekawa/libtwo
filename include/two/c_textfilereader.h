@@ -134,6 +134,13 @@ public:
     C_TextFileReader& operator=(C_TextFileReader&&) = delete;
 
 
+private:
+
+    struct FileReaderData_t;
+
+    FileReaderData_t* m_data;
+
+
 };
 
 

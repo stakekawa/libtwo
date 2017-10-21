@@ -15,6 +15,8 @@
 /*                                                                            */
 /* definition of version stuff                                                */
 /*                                                                            */
+
+
 #define TWO_LIBRARY_VERSION_STRING                 "@PROJECT_BASEVERSION@"
 #define TWO_LIBRARY_VERSION_MAJOR                  @PROJECT_BASEVERSION_MAJOR@
 #define TWO_LIBRARY_VERSION_MINOR                  @PROJECT_BASEVERSION_MINOR@
@@ -27,6 +29,8 @@
 /*                                                                            */
 /* layers includes                                                            */
 /*                                                                            */
+
+
 #include "two/c_logger.h"
 #include "two/c_observable.h"
 #include "two/c_observer.h"
@@ -34,7 +38,9 @@
 #include "two/c_updatecounter.h"
 #include "two/colorizeString.h"
 #include "two/common.h"
+#include "two/defines.h"
 #include "two/math.h"
+#include "two/sqlite.h"
 #include "two/thread.h"
 
 

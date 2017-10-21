@@ -29,43 +29,48 @@ std::string getTwoLibVersion()
 }
 
 
-TwoReturnCodeEnum enumToStdString(const TwoReturnCodeEnum p_enum, std::string& p_stringEnum)
+std::string enumToStdString(const TwoReturnCodeEnum p_enum)
 {
-    TwoReturnCodeEnum l_returnCode = TwoReturnCodeEnum::TwoReturnCodeSuccess;
+    std::string l_convertedString("TwoReturnCodeEnum not converted ");
 
     switch (p_enum)
     {
         case TwoReturnCodeEnum::TwoReturnCodeSuccess:
-            p_stringEnum = std::string("TwoReturnCodeSuccess");
+            l_convertedString = std::string("TwoReturnCodeSuccess");
             break;
         case TwoReturnCodeEnum::TwoReturnCodeError:
-            p_stringEnum = std::string("TwoReturnCodeError");
+            l_convertedString = std::string("TwoReturnCodeError");
             break;
         case TwoReturnCodeEnum::TwoReturnCodeInvalidParameters:
-            p_stringEnum = std::string("TwoReturnCodeInvalidParameters");
+            l_convertedString = std::string("TwoReturnCodeInvalidParameters");
             break;
         case TwoReturnCodeEnum::TwoReturnCodeOutOfRange:
-            p_stringEnum = std::string("TwoReturnCodeOutOfRange");
+            l_convertedString = std::string("TwoReturnCodeOutOfRange");
             break;
         case TwoReturnCodeEnum::TwoReturnCodeNotCorverted:
-            p_stringEnum = std::string("TwoReturnCodeNotCorverted");
+            l_convertedString = std::string("TwoReturnCodeNotCorverted");
             break;
         case TwoReturnCodeEnum::TwoReturnCodeFileError:
-            p_stringEnum = std::string("TwoReturnCodeFileError");
+            l_convertedString = std::string("TwoReturnCodeFileError");
+            break;
+        case TwoReturnCodeEnum::TwoReturnCodeFileNotFound:
+            l_convertedString = std::string("TwoReturnCodeFileNotFound");
             break;
         case TwoReturnCodeEnum::TwoReturnCodeFileEnd:
-            p_stringEnum = std::string("TwoReturnCodeFileEnd");
+            l_convertedString = std::string("TwoReturnCodeFileEnd");
+            break;
+        case TwoReturnCodeEnum::TwoReturnCodeSqliteError:
+            l_convertedString = std::string("TwoReturnCodeSqliteError");
             break;
         case TwoReturnCodeEnum::TwoReturnCodeSize:
-            p_stringEnum = std::string("TwoReturnCodeSize");
+            l_convertedString = std::string("TwoReturnCodeSize");
             break;
         default:
-            p_stringEnum = std::string("TwoReturnCodeEnum not converted ") + std::to_string(static_cast<size_t>(p_enum));
-            l_returnCode = TwoReturnCodeEnum::TwoReturnCodeNotCorverted;
+            l_convertedString = std::to_string(static_cast<size_t>(p_enum));
             break;
     }
 
-    return l_returnCode;
+    return l_convertedString;
 }
 
 

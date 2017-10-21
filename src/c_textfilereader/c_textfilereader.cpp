@@ -22,10 +22,23 @@ namespace two {
 
 static constexpr size_t k_fileSizeDefault   = 0;
 static constexpr int    k_lineNumberDefault = 0;
-static std::ifstream    g_file;
-static size_t           g_fileSize;
-static std::string      g_fileName;
-static int              g_lineNumber;
+
+
+struct C_TextFileReader::FileReaderData_t
+{
+    std::ifstream file;
+    size_t        fileSize;
+    std::string   fileName;
+    int           lineNumber;
+
+    FileReaderData_t() :
+        file(),
+        fileSize(k_fileSizeDefault),
+        fileName(),
+        lineNumber(k_lineNumberDefault)
+    { /* empty */ }
+};
+
 
 
 /*                                                                            */
@@ -33,7 +46,8 @@ static int              g_lineNumber;
 /*                                                                            */
 
 
-C_TextFileReader::C_TextFileReader()
+C_TextFileReader::C_TextFileReader() :
+    m_data(new FileReaderData_t())
 {
 
 }
@@ -43,18 +57,22 @@ C_TextFileReader::C_TextFileReader()
 C_TextFileReader::~C_TextFileReader()
 {
     Close();
+
+    delete m_data;
 }
 
 
 /* explicit */
-C_TextFileReader::C_TextFileReader(const std::string& p_fileName)
+C_TextFileReader::C_TextFileReader(const std::string& p_fileName) :
+    m_data(new FileReaderData_t())
 {
     Open(p_fileName);
 }
 
 
 /* explicit */
-C_TextFileReader::C_TextFileReader(std::string&& p_fileName)
+C_TextFileReader::C_TextFileReader(std::string&& p_fileName) :
+    m_data(new FileReaderData_t())
 {
     Open(std::forward<std::string>(p_fileName));
 }
@@ -66,14 +84,14 @@ TwoReturnCodeEnum C_TextFileReader::Open(const std::string& p_fileName)
 
     Close(); /* close previous file */
 
-    g_file.open(p_fileName, std::fstream::in | std::fstream::ate); /* open the file read-only and move to the end of file */
+    m_data->file.open(p_fileName, std::fstream::in | std::fstream::ate); /* open the file read-only and move to the end of file */
 
-    if (true == g_file.is_open())
+    if (true == m_data->file.is_open())
     {
-        g_fileSize = static_cast<size_t>(g_file.tellg()); /* get the position - aka size in byte */
-        g_fileName = p_fileName;
+        m_data->fileSize = static_cast<size_t>(m_data->file.tellg()); /* get the position - aka size in byte */
+        m_data->fileName = p_fileName;
 
-        g_file.seekg(std::ios_base::beg); /* set the position at beginning of file */
+        m_data->file.seekg(std::ios_base::beg); /* set the position at beginning of file */
 
         l_returnCode = TwoReturnCodeEnum::TwoReturnCodeSuccess;
     }
@@ -88,14 +106,14 @@ TwoReturnCodeEnum C_TextFileReader::Open(std::string&& p_fileName)
 
     Close(); /* close previous file */
 
-    g_file.open(p_fileName, std::fstream::in | std::fstream::ate); /* open the file read-only and move to the end of file */
+    m_data->file.open(p_fileName, std::fstream::in | std::fstream::ate); /* open the file read-only and move to the end of file */
 
-    if (true == g_file.is_open())
+    if (true == m_data->file.is_open())
     {
-        g_fileSize = static_cast<size_t>(g_file.tellg()); /* get the position - aka size in byte */
-        std::swap(g_fileName, p_fileName);
+        m_data->fileSize = static_cast<size_t>(m_data->file.tellg()); /* get the position - aka size in byte */
+        std::swap(m_data->fileName, p_fileName);
 
-        g_file.seekg(std::ios_base::beg); /* set the position at beginning of file */
+        m_data->file.seekg(std::ios_base::beg); /* set the position at beginning of file */
 
         l_returnCode = TwoReturnCodeEnum::TwoReturnCodeSuccess;
     }
@@ -108,14 +126,14 @@ void C_TextFileReader::Close()
 {
     /* close file if it is open */
 
-    if (true == g_file.is_open())
+    if (true == m_data->file.is_open())
     {
-        g_file.close();
+        m_data->file.close();
     }
 
-    g_fileSize   = k_fileSizeDefault;
-    g_fileName.clear();
-    g_lineNumber = k_lineNumberDefault;
+    m_data->fileSize   = k_fileSizeDefault;
+    m_data->fileName.clear();
+    m_data->lineNumber = k_lineNumberDefault;
 }
 
 
@@ -126,23 +144,23 @@ TwoReturnCodeEnum C_TextFileReader::GetLine(std::string& p_line, int& p_lineNumb
     p_line.clear();
     p_lineNumber = 0;
 
-    if (false == g_file.is_open())
+    if (false == m_data->file.is_open())
     {
         l_returnCode = TwoReturnCodeEnum::TwoReturnCodeFileError;
     }
-    else if (true == g_file.eof())
+    else if (true == m_data->file.eof())
     {
         l_returnCode = TwoReturnCodeEnum::TwoReturnCodeFileEnd;
     }
     else
     {
-        std::getline(g_file, p_line);
+        std::getline(m_data->file, p_line);
 
-        ++g_lineNumber;
+        ++m_data->lineNumber;
 
-        p_lineNumber = g_lineNumber;
+        p_lineNumber = m_data->lineNumber;
 
-        if (true == g_file.eof())
+        if (true == m_data->file.eof())
         {
             l_returnCode = TwoReturnCodeEnum::TwoReturnCodeFileEnd;
         }
@@ -154,25 +172,25 @@ TwoReturnCodeEnum C_TextFileReader::GetLine(std::string& p_line, int& p_lineNumb
 
 size_t C_TextFileReader::GetFileSize() const
 {
-    return g_fileSize;
+    return m_data->fileSize;
 }
 
 
 std::string C_TextFileReader::GetFileName() const
 {
-    return g_fileName;
+    return m_data->fileName;
 }
 
 
 bool C_TextFileReader::IsOpen() const
 {
-    return g_file.is_open();
+    return m_data->file.is_open();
 }
 
 
 bool C_TextFileReader::IsEof() const
 {
-    return ((true == g_file.is_open()) ? g_file.eof() : true); /* return g_file.eof() if file is open, return true if it is close */
+    return ((true == m_data->file.is_open()) ? m_data->file.eof() : true); /* return m_data->file.eof() if file is open, return true if it is close */
 }
 
 

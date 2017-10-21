@@ -55,7 +55,9 @@ enum class TwoReturnCodeEnum
     TwoReturnCodeOutOfRange,        /*!< Out of range error            */
     TwoReturnCodeNotCorverted,      /*!< Conversion failed             */
     TwoReturnCodeFileError,         /*!< Generic file error            */
+    TwoReturnCodeFileNotFound,      /*!< File not found                */
     TwoReturnCodeFileEnd,           /*!< End of file reached           */
+    TwoReturnCodeSqliteError,       /*!< Error in sqlite query         */
     TwoReturnCodeSize               /*!< The number of the enumeration */
 };
 
@@ -64,11 +66,10 @@ enum class TwoReturnCodeEnum
  *  \brief Convert a TwoReturnCodeEnum to a human readable std::String
  *
  *  \param p_enum enumeration to convert
- *  \param p_stringEnum std::string with text
  *
- *  \return TwoReturnCodeSuccess or TwoReturnCodeNotCorverted
+ *  \return std::string with converted value
  */
-TwoReturnCodeEnum enumToStdString(const TwoReturnCodeEnum p_enum, std::string& p_stringEnum);
+std::string enumToStdString(const TwoReturnCodeEnum p_enum);
 
 
 /*                                                                            */

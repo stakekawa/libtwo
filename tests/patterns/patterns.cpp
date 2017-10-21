@@ -23,31 +23,30 @@ enum class TestEventEnum : size_t
 };
 
 
-two::TwoReturnCodeEnum enumToString(const TestEventEnum p_enum, std::string& p_stringEnum)
+std::string enumToStdString(const TestEventEnum p_enum)
 {
-    two::TwoReturnCodeEnum l_returnCode = two::TwoReturnCodeEnum::TwoReturnCodeSuccess;
+    std::string l_convertedString("TestEventEnum not converted ");
 
     switch (p_enum)
     {
         case TestEventEnum::TestEvent0:
-            p_stringEnum = std::string("TestEvent0");
+            l_convertedString = std::string("TestEvent0");
             break;
         case TestEventEnum::TestEvent1:
-            p_stringEnum = std::string("TestEvent1");
+            l_convertedString = std::string("TestEvent1");
             break;
         case TestEventEnum::TestEvent2:
-            p_stringEnum = std::string("TestEvent2");
+            l_convertedString = std::string("TestEvent2");
             break;
         case TestEventEnum::TestEventSize:
-            p_stringEnum = std::string("TestEventSize");
+            l_convertedString = std::string("TestEventSize");
             break;
         default:
-            p_stringEnum += std::string("Not converted ") + std::to_string(static_cast<size_t>(p_enum));
-            l_returnCode = two::TwoReturnCodeEnum::TwoReturnCodeNotCorverted;
+            l_convertedString += std::to_string(static_cast<size_t>(p_enum));
             break;
     }
 
-    return l_returnCode;
+    return l_convertedString;
 }
 
 
@@ -77,16 +76,9 @@ private:
 
 bool C_TestObserver::Update(const TestEventEnum& p_event, void*)
 {
-    std::string l_stringEnum;
+    std::cout << " " << __func__ << " " << m_name << " Got event " << enumToStdString(p_event) << " .\n";
 
-    const bool l_return = two::TwoReturnCodeEnum::TwoReturnCodeSuccess == enumToString(p_event, l_stringEnum);
-
-    if (true == l_return)
-    {
-        std::cout << " " << __func__ << " " << m_name << " Got event " << l_stringEnum << " .\n";
-    }
-
-    return l_return;
+    return true;
 }
 
 

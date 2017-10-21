@@ -22,6 +22,12 @@ include(support/common.cmake)
 
 
 #
+# cmake stuff
+#
+SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/support ${CMAKE_MODULE_PATH})
+
+
+#
 # variables
 #
 set(PROJECT_BASENAME "two")
@@ -51,6 +57,12 @@ include(GNUInstallDirs)
 
 
 #
+# Sqlite3
+#
+find_package(Sqlite3 REQUIRED)
+
+
+#
 # sources
 #
 set(PROJECT_SOURCES ${PROJECT_SRC_DIR}/c_logger/c_logger.cpp
@@ -61,6 +73,7 @@ set(PROJECT_SOURCES ${PROJECT_SRC_DIR}/c_logger/c_logger.cpp
                     ${PROJECT_SRC_DIR}/common/common.cpp
                     ${PROJECT_SRC_DIR}/math/c_combinator.cpp
                     ${PROJECT_SRC_DIR}/math/c_onlinemeansigma.cpp
+                    ${PROJECT_SRC_DIR}/sqlite3/c_sqlite3.cpp
                     ${PROJECT_SRC_DIR}/thread/pthread_mutexlocker_t.cpp)
 
 
@@ -71,6 +84,7 @@ set(PROJECT_INCLUDES ${PROJECT_INCLUDE_DIR}/${PROJECT_BASENAME}.h)
 include_directories(/usr/include)
 include_directories(${PROJECT_INCLUDE_DIR})
 include_directories(${PROJECT_INCLUDE_DIR}/${PROJECT_BASENAME})
+include_directories(${SQLITE3_INCLUDE_DIR})
 
 
 #
@@ -87,7 +101,8 @@ set_target_properties(${PROJECT_BASENAME} PROPERTIES
 #
 # link libraries
 #
-target_link_libraries(${PROJECT_BASENAME} Threads::Threads)
+target_link_libraries(${PROJECT_BASENAME} Threads::Threads
+                                          ${SQLITE3_LIBRARY})
 
 
 #

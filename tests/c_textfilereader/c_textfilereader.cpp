@@ -20,7 +20,6 @@ void testFunction1()
     const std::string l_fileName2("/usr/non/esisto.txt");
     const std::string l_fileName3("/usr/include/linux/limits.h");
 
-    std::string l_stringEnum;
     std::string l_line;
     int         l_nLines = 0;
 
@@ -28,25 +27,11 @@ void testFunction1()
 
     two::TwoReturnCodeEnum l_returnCode = l_textFileReader1.Open(l_fileName1);
 
-    if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess != two::enumToStdString(l_returnCode, l_stringEnum))
-    {
-        std::cout << " " << __func__ << " Opening " << l_fileName1 << " returned " << static_cast<size_t>(l_returnCode) << " .\n";
-    }
-    else
-    {
-        std::cout << " " << __func__ << " Opening " << l_fileName1 << " returned " << l_stringEnum << " \n";
-    }
+    std::cout << " " << __func__ << " Opening " << l_fileName1 << " returned " << two::enumToStdString(l_returnCode) << " \n";
 
     l_returnCode = l_textFileReader1.Open(l_fileName2);
 
-    if (two::TwoReturnCodeEnum::TwoReturnCodeSuccess != two::enumToStdString(l_returnCode, l_stringEnum))
-    {
-        std::cout << " " << __func__ << " Opening " << l_fileName2 << " returned " << static_cast<size_t>(l_returnCode) << " .\n";
-    }
-    else
-    {
-        std::cout << " " << __func__ << " Opening " << l_fileName2 << " returned " << l_stringEnum << " \n";
-    }
+    std::cout << " " << __func__ << " Opening " << l_fileName2 << " returned " << two::enumToStdString(l_returnCode) << " \n";
 
     two::C_TextFileReader l_textFileReader2(l_fileName3);
 

@@ -1,7 +1,7 @@
 /*!
  *  \file c_onlinemeansigma.h
  *
- *  \brief This file contains the declaration of C_OnlineMeanSigma class
+ *  \brief This file contains the declaration of the C_OnlineMeanSigma class
  *  \author Stefano Takekawa s.takekawa_at_gmail.com
  *  \date 2017
  *  \copyright Apache Licence 2.0
