@@ -1,1 +1,0 @@
-/usr/bin/g++  -std=c++14 -pipe -Wextra -Weffc++ -Wno-system-headers -Wshadow -O0 -g3   CMakeFiles/sqlite3.dir/sqlite3.cpp.o  -o sqlite3 -Wl,-rpath,/home/twominds/programming/libtwo/build: /home/twominds/programming/libtwo/build/libtwo.so -pthread 
